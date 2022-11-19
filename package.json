@@ -1,0 +1,14 @@
+{
+  "name": "playlist-butler",
+  "version": "1.0.0",
+  "main": "index.js",
+  "author": "Sean Lim <seanlimdev856@gmail.com>",
+  "license": "MIT",
+  "scripts": {
+    "prune-input-playlist": "node index.js"
+  },
+  "dependencies": {
+    "cross-fetch": "^3.1.5",
+    "dotenv": "^16.0.3"
+  }
+}

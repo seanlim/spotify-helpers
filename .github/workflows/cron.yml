@@ -1,0 +1,20 @@
+name: Playlist Butler
+
+on:
+  push:
+  schedule:
+    - cron: "0 0 * * 0"
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
+        with:
+          node-version: "12.x"
+      - run: yarn install
+      - name: Run script
+        run: yarn run prune-input-playlist
+        env:
+          TOKEN: ${{ secrets.TOKEN }}
