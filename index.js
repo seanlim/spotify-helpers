@@ -18,6 +18,12 @@ async function main() {
   }).catch(console.error);
   const data = await response.json();
 
+  if (data.items === undefined) {
+    return;
+  }
+  if (data.items.length === 0) {
+    return;
+  }
   let songsToRemove = [];
   data.items.forEach(item => {
     const addedAtDate = new Date(item.added_at);
@@ -27,6 +33,9 @@ async function main() {
     }
   });
 
+  if (songsToRemove.length === 0) {
+    return;
+  }
   // Clean up
   console.info(`Cleaning up ${songsToRemove.length} tracks...`);
   await fetch(`https://api.spotify.com/v1/playlists/${INPUT_PLAYLIST_ID}/tracks`, {
