@@ -1,4 +1,4 @@
-name: Playlist Butler
+name: Spotify Helpers
 
 on:
   push:

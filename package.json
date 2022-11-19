@@ -1,11 +1,11 @@
 {
-  "name": "playlist-butler",
+  "name": "spotify-helpers",
   "version": "1.0.0",
   "main": "index.js",
   "author": "Sean Lim <seanlimdev856@gmail.com>",
   "license": "MIT",
   "scripts": {
-    "prune-input-playlist": "node index.js"
+    "prune-input-playlist": "node scripts/pruneInputPlaylist.js"
   },
   "dependencies": {
     "cross-fetch": "^3.1.5",
