@@ -4,6 +4,21 @@ const fetch = require('cross-fetch');
 const DAYS_BEFORE_REMOVAL = 7;
 const INPUT_PLAYLIST_ID = '3BYWuUuYCZuOOco0LrHwrO';
 
+async function getToken() {
+  const response = await fetch(`https://accounts.spotify.com/api/token?grant_type=refresh_token&refresh_token=${process.env.REFRESH_TOKEN}`, {
+    method: 'POST',
+    headers: {
+      'Authorization': `Basic ${Buffer.from(process.env.CLIENT_ID + ':' + process.env.CLIENT_SECRET).toString('base64')}`,
+      'Content-Type': 'application/x-www-form-urlencoded'
+    },
+  });
+  const res = await response.json();
+  if (res.access_token === undefined) {
+    throw 'Unable to get token';
+  }
+  return res.access_token;
+}
+
 const makeHeaders = (token) => ({
   Accept: 'application/json',
   'Content-Type': 'application/json',
@@ -11,7 +26,8 @@ const makeHeaders = (token) => ({
 });
 
 async function main() {
-  const token = process.env.TOKEN;
+  // Get token
+  const token = await getToken();
   // Get playlist
   const response = await fetch(
     `https://api.spotify.com/v1/playlists/${INPUT_PLAYLIST_ID}/tracks?fields=items(added_at%2C%20track(uri))`,
@@ -27,6 +43,8 @@ async function main() {
   if (data.items.length === 0) {
     return;
   }
+
+  console.info(`${data.items.length} songs currently in playlist`);
   let songsToRemove = [];
   data.items.forEach((item) => {
     const addedAtDate = new Date(item.added_at);
@@ -45,7 +63,7 @@ async function main() {
 
   // Clean up
   console.info(`Cleaning up ${songsToRemove.length} tracks...`);
-  await fetch(
+  const r = await fetch(
     `https://api.spotify.com/v1/playlists/${INPUT_PLAYLIST_ID}/tracks`,
     {
       method: 'DELETE',
