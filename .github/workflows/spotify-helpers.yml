@@ -15,7 +15,7 @@ jobs:
           node-version: '16.x'
       - run: yarn install
       - name: Run script
-        run: yarn run prune-input-playlist
+        run: yarn run main
         env:
           REFRESH_TOKEN: ${{ secrets.REFRESH_TOKEN }}
           CLIENT_ID: ${{ secrets.CLIENT_ID }}

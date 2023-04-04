@@ -4,8 +4,9 @@
   "main": "index.js",
   "author": "Sean Lim <seanlimdev856@gmail.com>",
   "license": "MIT",
+  "type": "module",
   "scripts": {
-    "prune-input-playlist": "node scripts/pruneInputPlaylist.js"
+    "main": "node src/index.js"
   },
   "dependencies": {
     "cross-fetch": "^3.1.5",
